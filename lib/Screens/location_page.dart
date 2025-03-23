@@ -67,21 +67,34 @@ class _LocationPageState extends State<LocationPage> {
 
       // Send POST request
       final response = await http.post(
-        Uri.parse('http://127.0.0.1:8000/getData'),
+        Uri.parse('http://192.168.16.184:8000/getData'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(data),
+
+
       );
 
       // Handle response
       if (response.statusCode == 200) {
-        Map<String, dynamic> responseData = json.decode(response.body);
-        if (responseData['number_of_alerts'] > 0) {
+        try {
+          // First decode: converts outer string to JSON string
+          String jsonString = json.decode(response.body);
+
+          // Second decode: converts JSON string to Map
+          Map<String, dynamic> responseData = json.decode(jsonString);
+
+          if (responseData['number_of_alerts'] > 0) {
+            setState(() {
+              alertMessage = responseData['alerts'].join('\n');
+            });
+          } else {
+            setState(() {
+              alertMessage = '✅ All safe in your area.';
+            });
+          }
+        } catch (e) {
           setState(() {
-            alertMessage = responseData['alerts'].join('\n');
-          });
-        } else {
-          setState(() {
-            alertMessage = '✅ All safe in your area.';
+            alertMessage = 'Error parsing response: $e';
           });
         }
       } else {
