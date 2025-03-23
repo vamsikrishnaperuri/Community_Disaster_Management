@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-
+import 'package:geolocator/geolocator.dart';
 import 'Screens/e_numbers_page.dart';
 import 'Screens/feedback_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,6 +11,8 @@ import 'Screens/location_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Geolocator.checkPermission();
+  await Geolocator.requestPermission();
 
   try {
     if (Platform.isAndroid) {

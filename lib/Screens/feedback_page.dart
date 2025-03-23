@@ -20,7 +20,7 @@ class _ChatbotState extends State<FeedbackPage> {
   List<ChatMessage> allMessages = [];
   List<ChatUser> typing=[];
 
-  final oururl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyBHh8a7RMpIK9LrIgkXwf4sozLxibN1YcQ';
+  final oururl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=API_KEY';
   final header={
     'Content-Type': 'application/json'
   };
@@ -102,7 +102,7 @@ class _ChatbotState extends State<FeedbackPage> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(centerTitle: true,backgroundColor: Colors.white10,title: Text("Google Gemini",
+      appBar: AppBar(centerTitle: true,backgroundColor: Colors.white10,title: Text("Chatbot",
         style:GoogleFonts.salsa(textStyle: TextStyle(color: Colors.amber[800],fontSize: 30,)),),),
       backgroundColor: Colors.black,
 

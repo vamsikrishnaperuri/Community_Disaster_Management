@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
 
 import 'DisasterScreens/CyclonePage.dart';
 import 'DisasterScreens/EarthquakePage.dart';
@@ -13,16 +16,85 @@ class LocationPage extends StatefulWidget {
 }
 
 class _LocationPageState extends State<LocationPage> {
+  String alertMessage = 'Press "Get Report" to fetch alerts for your area.';
 
   final Map<String, Widget> disasterPages = {
     'Cyclone': const CyclonePage(),
-    // 'Hurricanes': const HurricanePage(),
     'Earthquakes': const EarthquakePage(),
     'Floods': const FloodPage(),
     'Forest Fires': const ForestFirePage(),
-    // 'Tornadoes': const TornadoPage(),
   };
 
+  Future<void> _getReport() async {
+    try {
+      // Check location permissions
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        setState(() {
+          alertMessage = 'Location services are disabled.';
+        });
+        return;
+      }
+
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          setState(() {
+            alertMessage = 'Location permissions are denied.';
+          });
+          return;
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        setState(() {
+          alertMessage = 'Location permissions are permanently denied.';
+        });
+        return;
+      }
+
+      // Get current location
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+
+      // Prepare data to send
+      Map<String, dynamic> data = {
+        'lat': position.latitude,
+        'lng': position.longitude,
+        'api_key': 'ker234kj4kj34j234',
+      };
+
+      // Send POST request
+      final response = await http.post(
+        Uri.parse('http://127.0.0.1:8000/getData'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(data),
+      );
+
+      // Handle response
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseData = json.decode(response.body);
+        if (responseData['number_of_alerts'] > 0) {
+          setState(() {
+            alertMessage = responseData['alerts'].join('\n');
+          });
+        } else {
+          setState(() {
+            alertMessage = '✅ All safe in your area.';
+          });
+        }
+      } else {
+        setState(() {
+          alertMessage = 'Failed to fetch alerts.';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        alertMessage = 'Error: $e';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,26 +102,58 @@ class _LocationPageState extends State<LocationPage> {
       appBar: AppBar(title: const Text('Disaster Types')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 20,
-            mainAxisSpacing: 30,
-            childAspectRatio: 1.2,
-          ),
-          itemCount: disasterPages.keys.length,
-          itemBuilder: (context, index) {
-            String title = disasterPages.keys.elementAt(index);
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => disasterPages[title]!),
-                );
-              },
-              child: _buildDisasterCard(title),
-            );
-          },
+        child: ListView(
+          children: [
+            // Alerts Card
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              color: Colors.redAccent,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    const Icon(Icons.warning,
+                        color: Colors.white, size: 30),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        alertMessage,
+                        style: const TextStyle(
+                            color: Colors.white, fontSize: 16),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Get Report Button
+            ElevatedButton(
+              onPressed: _getReport,
+              child: const Text('Get Report'),
+            ),
+            const SizedBox(height: 20),
+
+            // Disaster Cards
+            ...disasterPages.entries.map((entry) => Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => entry.value,
+                    ),
+                  );
+                },
+                child: _buildDisasterCard(entry.key),
+              ),
+            )),
+          ],
         ),
       ),
     );
@@ -57,17 +161,17 @@ class _LocationPageState extends State<LocationPage> {
 
   Widget _buildDisasterCard(String title) {
     return Container(
+      height: 100,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          begin: Alignment.topLeft, // Start point of the gradient
-          end: Alignment.bottomRight, // End point of the gradient
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
           colors: [
-            Colors.blueAccent, // Start color
-            Colors.blue,  // Middle color (optional)
-            Colors.lightBlueAccent, // End color
+            Colors.blueAccent,
+            Colors.blue,
+            Colors.lightBlueAccent,
           ],
         ),
-        // color: Colors.white70,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           const BoxShadow(
@@ -77,35 +181,26 @@ class _LocationPageState extends State<LocationPage> {
           ),
           BoxShadow(
             color: Colors.grey.shade500,
-            offset: Offset(5, 5),
+            offset: const Offset(5, 5),
             blurRadius: 10,
           ),
         ],
       ),
       child: Container(
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          // gradient: const LinearGradient(
-          //   begin: Alignment.topLeft, // Start point of the gradient
-          //   end: Alignment.bottomRight, // End point of the gradient
-          //   colors: [
-          //     Colors.blueAccent, // Start color
-          //     Colors.blue,  // Middle color (optional)
-          //     Colors.lightBlueAccent, // End color
-          //   ],
-          // ),
           color: Colors.white70,
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.shade400,
-              offset: Offset(2, 2), // Inner shadow at bottom-right
+              offset: const Offset(2, 2),
               blurRadius: 6,
               spreadRadius: 2,
             ),
             const BoxShadow(
               color: Colors.white,
-              offset: Offset(-2, -2), // Inner shadow at top-left
+              offset: Offset(-2, -2),
               blurRadius: 6,
               spreadRadius: 2,
             ),
@@ -114,40 +209,10 @@ class _LocationPageState extends State<LocationPage> {
         child: Center(
           child: Text(
             title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
       ),
     );
   }
 }
-
-class DisasterDetailPage extends StatelessWidget {
-  final String title;
-
-  const DisasterDetailPage({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: Text(
-          'Details about $title',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
-}
-
-const List<String> disasterTypes = [
-  'Cyclone',
-  'Hurricanes',
-  'Earthquakes',
-  'Floods',
-  'Forest Fires',
-  'Tornadoes',
-];

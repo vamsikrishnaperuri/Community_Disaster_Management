@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart' as geocoding;
 import '../models/post_model.dart';
 import 'post_screen.dart';
 
@@ -11,12 +13,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Post> posts = [];
+  List<Post> filteredPosts = [];
   final user = FirebaseAuth.instance.currentUser;
+  bool isNearbyFilterEnabled = false;
+  Position? currentPosition;
 
   @override
   void initState() {
     super.initState();
     fetchPosts();
+    _determinePosition();
   }
 
   Future<void> fetchPosts() async {
@@ -26,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
         posts = snapshot.docs.map((doc) {
           return Post.fromFirestore(doc.data() as Map<String, dynamic>, doc.id);
         }).toList();
+        filteredPosts = posts;
       });
     } catch (e) {
       print('Error fetching posts: $e');
@@ -82,6 +89,60 @@ class _HomeScreenState extends State<HomeScreen> {
     fetchPosts();
   }
 
+  Future<void> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied.');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      currentPosition = position;
+    });
+  }
+
+  Future<void> _filterNearbyPosts() async {
+    if (currentPosition != null) {
+      List<Post> nearbyPosts = [];
+      for (Post post in posts) {
+        try {
+          List<geocoding.Location> locations = await geocoding.locationFromAddress(post.location);
+          if (locations.isNotEmpty) {
+            double distanceInMeters = Geolocator.distanceBetween(
+              currentPosition!.latitude,
+              currentPosition!.longitude,
+              locations.first.latitude,
+              locations.first.longitude,
+            );
+            if (distanceInMeters <= 10000) {
+              nearbyPosts.add(post); // Filter posts within 10 km
+            }
+          }
+        } catch (e) {
+          print('Error getting location for ${post.location}: $e');
+        }
+      }
+      setState(() {
+        filteredPosts = nearbyPosts;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,14 +158,27 @@ class _HomeScreenState extends State<HomeScreen> {
               ).then((_) => fetchPosts());
             },
           ),
+          IconButton(
+            icon: Icon(isNearbyFilterEnabled ? Icons.filter_list_off : Icons.filter_list),
+            onPressed: () {
+              setState(() {
+                isNearbyFilterEnabled = !isNearbyFilterEnabled;
+                if (isNearbyFilterEnabled) {
+                  _filterNearbyPosts();
+                } else {
+                  filteredPosts = posts;
+                }
+              });
+            },
+          ),
         ],
       ),
-      body: posts.isEmpty
+      body: filteredPosts.isEmpty
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(
-        itemCount: posts.length,
+        itemCount: filteredPosts.length,
         itemBuilder: (context, index) {
-          Post post = posts[index];
+          Post post = filteredPosts[index];
           return PostCard(
             post: post,
             onVote: (isUpvote) => updateVote(post.postId, isUpvote),
