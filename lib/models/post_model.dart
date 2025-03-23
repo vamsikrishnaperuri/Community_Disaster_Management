@@ -1,54 +1,50 @@
 class Post {
-  String id;
-  String userName;
-  String location;
-  int age;
-  String disasterName;
-  String severity;
-  String description;
-  int upvotes;
-  int downvotes;
-  List<String> votedUsers;
+  final String disasterType;
+  final String location;
+  final String severity;
+  final String username;
+  final String description;
+  final int age;
+  final int upvotes;
+  final int downvotes;
+  final String postId;
 
   Post({
-    required this.id,
-    required this.userName,
+    required this.disasterType,
     required this.location,
-    required this.age,
-    required this.disasterName,
     required this.severity,
+    required this.username,
     required this.description,
+    required this.age,
     required this.upvotes,
     required this.downvotes,
-    required this.votedUsers,
+    required this.postId,
   });
 
-  factory Post.fromMap(Map<String, dynamic> map, String id) {
+  factory Post.fromFirestore(Map<String, dynamic> data, String id) {
     return Post(
-      id: id,
-      userName: map['userName'],
-      location: map['location'],
-      age: map['age'],
-      disasterName: map['disasterName'],
-      severity: map['severity'],
-      description: map['description'],
-      upvotes: map['upvotes'],
-      downvotes: map['downvotes'],
-      votedUsers: List<String>.from(map['votedUsers'] ?? []),
+      disasterType: data['disasterType'] ?? '',
+      location: data['location'] ?? '',
+      severity: data['severity'] ?? '',
+      username: data['username'] ?? '',
+      description: data['description'] ?? '',
+      age: data['age'] ?? 0,
+      upvotes: data['upvotes'] ?? 0,
+      downvotes: data['downvotes'] ?? 0,
+      postId: id,
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toFirestore() {
     return {
-      'userName': userName,
+      'disasterType': disasterType,
       'location': location,
-      'age': age,
-      'disasterName': disasterName,
       'severity': severity,
+      'username': username,
       'description': description,
+      'age': age,
       'upvotes': upvotes,
       'downvotes': downvotes,
-      'votedUsers': votedUsers,
     };
   }
 }

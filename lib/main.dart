@@ -1,16 +1,37 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
-// import 'Screens/e_numbers_page.dart';
-// import 'Screens/feedback_page.dart';
+import 'Screens/e_numbers_page.dart';
+import 'Screens/feedback_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'Screens/home_page.dart';
-// import 'Screens/location_page.dart';
+import 'Screens/location_page.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  await FirebaseAuth.instance.signInAnonymously();
+
+  try {
+    if (Platform.isAndroid) {
+      await Firebase.initializeApp(
+        options: const FirebaseOptions(
+          apiKey: 'AIzaSyBa5VHQli1HH8DlWdKkaXFlvnoZwukR_Do',
+          appId: '1:53547670839:android:99347bc9a1265a1d16ceb2',
+          messagingSenderId: '53547670839',
+          projectId: 'disaster-5e1e5',
+          storageBucket: 'disaster-5e1e5.firebasestorage.app',
+        ),
+      );
+    } else {
+      await Firebase.initializeApp();
+    }
+
+    await FirebaseAuth.instance.signInAnonymously();
+  } catch(e) {
+    print('Error initializing Firebase: $e');
+  }
+
   runApp(const MyApp());
 }
 
@@ -39,12 +60,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
-  static List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
-    // ENumbersPage(),
-    // LocationPage(),
-    // FeedbackPage(),
-
+  static final List<Widget> _widgetOptions = <Widget>[
+    HomeScreen(),
+    ENumbersPage(),
+    LocationPage(),
+    FeedbackPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -89,5 +109,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
