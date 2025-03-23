@@ -105,56 +105,108 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: posts.length,
         itemBuilder: (context, index) {
           Post post = posts[index];
-          return Card(
-            margin: EdgeInsets.all(10),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Disaster: ${post.disasterType}', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text('Location: ${post.location}'),
-                  Text('Severity: ${post.severity}'),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.thumb_up, color: Colors.green),
-                        onPressed: () => updateVote(post.postId, true),
-                      ),
-                      Text('${post.upvotes}'),
-                      IconButton(
-                        icon: Icon(Icons.thumb_down, color: Colors.red),
-                        onPressed: () => updateVote(post.postId, false),
-                      ),
-                      Text('${post.downvotes}'),
-                    ],
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (_) => AlertDialog(
-                          title: Text(post.disasterType),
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Username: ${post.username}'),
-                              Text('Age: ${post.age}'),
-                              Text('Description: ${post.description}'),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    child: Text("Show More"),
-                  ),
-                ],
-              ),
-            ),
+          return PostCard(
+            post: post,
+            onVote: (isUpvote) => updateVote(post.postId, isUpvote),
           );
         },
+      ),
+    );
+  }
+}
+
+class PostCard extends StatefulWidget {
+  final Post post;
+  final Function(bool) onVote;
+
+  const PostCard({required this.post, required this.onVote});
+
+  @override
+  _PostCardState createState() => _PostCardState();
+}
+
+class _PostCardState extends State<PostCard> {
+  bool _showDetails = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 10,
+            offset: Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Disaster: ${widget.post.disasterType}', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text('Location: ${widget.post.location}'),
+            Text('Severity: ${widget.post.severity}'),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.thumb_up, color: Colors.green),
+                          onPressed: () => widget.onVote(true),
+                        ),
+                        Text('Upvote'),
+                      ],
+                    ),
+                    Text('${widget.post.upvotes}'),
+                    SizedBox(width: 10), // spacing
+                    Column(
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.thumb_down, color: Colors.red),
+                          onPressed: () => widget.onVote(false),
+                        ),
+                        Text('Downvote'),
+                      ],
+                    ),
+                    Text('${widget.post.downvotes}'),
+                  ],
+                ),
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      _showDetails = !_showDetails;
+                    });
+                  },
+                  child: Text("Show More"),
+                ),
+              ],
+            ),
+            AnimatedOpacity(
+              opacity: _showDetails ? 1.0 : 0.0,
+              duration: Duration(milliseconds: 300),
+              child: _showDetails
+                  ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Username: ${widget.post.username}'),
+                  Text('Age: ${widget.post.age}'),
+                  Text('Description: ${widget.post.description}'),
+                ],
+              )
+                  : Container(),
+            ),
+          ],
+        ),
       ),
     );
   }
