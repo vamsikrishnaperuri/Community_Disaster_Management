@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:url_launcher/url_launcher.dart';
+
 class FloodPage extends StatefulWidget {
   const FloodPage({super.key});
 
@@ -253,7 +255,16 @@ class _EarthquakePageState extends State<FloodPage> {
               onPressed: _showStatePicker,
               child: Text(selectedState),
             ),
+            const SizedBox(height: 20), // Add spacing between buttons
+            ElevatedButton(
+              onPressed: () async {
+                final Uri url = Uri.parse('https://www.swechaap.org/helpline/dashboard/');
+                await launchUrl(url); // Try without canLaunchUrl
+              },
+              child: const Text('Floods Dashboard'),
+            ),
           ],
+
         ),
       ),
     );

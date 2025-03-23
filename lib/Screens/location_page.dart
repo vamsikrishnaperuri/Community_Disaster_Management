@@ -17,6 +17,7 @@ class LocationPage extends StatefulWidget {
 
 class _LocationPageState extends State<LocationPage> {
   String alertMessage = 'Press "Get Report" to fetch alerts for your area.';
+  String safeAreasMessage = '';
 
   final Map<String, Widget> disasterPages = {
     'Cyclone': const CyclonePage(),
@@ -75,31 +76,41 @@ class _LocationPageState extends State<LocationPage> {
       );
 
       // Handle response
+
+
       if (response.statusCode == 200) {
         try {
-          // First decode: converts outer string to JSON string
+          // First decode
           String jsonString = json.decode(response.body);
 
-          // Second decode: converts JSON string to Map
+          // Second decode
           Map<String, dynamic> responseData = json.decode(jsonString);
 
           if (responseData['number_of_alerts'] > 0) {
             setState(() {
               alertMessage = responseData['alerts'].join('\n');
+
+              // Add dummy safe area suggestions
+              safeAreasMessage = '\n\n🟢 Safe Areas to Shift:\n';
+              safeAreasMessage += '1. Green Valley Park\n   Coordinates: 17.385044, 78.486671\n   City: Hyderabad\n\n';
+              safeAreasMessage += '2. Blue Hills Shelter\n   Coordinates: 17.4504, 78.3806\n   City: Hyderabad';
             });
           } else {
             setState(() {
               alertMessage = '✅ All safe in your area.';
+              safeAreasMessage = ''; // No safe areas needed
             });
           }
         } catch (e) {
           setState(() {
             alertMessage = 'Error parsing response: $e';
+            safeAreasMessage = '';
           });
         }
       } else {
         setState(() {
           alertMessage = 'Failed to fetch alerts.';
+          safeAreasMessage = '';
         });
       }
     } catch (e) {
@@ -119,29 +130,32 @@ class _LocationPageState extends State<LocationPage> {
           children: [
             // Alerts Card
             Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              color: Colors.redAccent,
+              margin: EdgeInsets.all(12),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.warning,
-                        color: Colors.white, size: 30),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        alertMessage,
-                        style: const TextStyle(
-                            color: Colors.white, fontSize: 16),
-                      ),
+
+                    const Text(
+                      '⚠️ Alerts',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
+                    SizedBox(height: 8),
+                    Text(alertMessage),
+                    if (safeAreasMessage.isNotEmpty) ...[
+                      SizedBox(height: 16),
+                      Text(
+                        safeAreasMessage,
+                        style: TextStyle(color: Colors.green[700]),
+                      ),
+                    ],
                   ],
                 ),
               ),
             ),
+
+
             const SizedBox(height: 20),
 
             // Get Report Button

@@ -93,11 +93,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.info),
-            label: 'Disaster Info',
+            label: 'Report',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.feedback),
-            label: 'Feedback',
+            label: 'Chatbot',
           ),
         ],
         currentIndex: _selectedIndex,
