@@ -69,14 +69,13 @@ Let's break down the core features:
     * Report incidents with location and severity.
     * Verify reports with community upvotes/downvotes.
 * **Safe Location Recommendations:**
-    * AI-powered, personalized safe zone suggestions.
+    * Personalized safe zone suggestions.
     * Dynamic updates as situations change.
 * **Real-Time Alerts to Authorities:**
     * Automatic alerts to emergency responders.
     * Detailed incident information for efficient response.
 * **Emergency Contacts & Assistance Hub:**
     * Quick access to helplines and essential contacts.
-    * SMS alerts for offline situations.
 * **Flood Dashboard & Rescue Requests:**
     * Specialized features for flood-prone areas.
     * Requests for supplies and rescue.
@@ -96,16 +95,10 @@ Let's break down the core features:
     * Local data storage and automatic syncing.
 * **Geolocation Tracking and Evacuation Route Mapping:**
     * Real-time location and navigation.
-* **Misinformation Control & Report Flagging:**
-    * User flagging and AI moderation.
-* **Accessibility Features:**
-    * Text-to-speech and multilingual support.
 * **Data Analytics and Insights for Authorities:**
     * Dashboards for monitoring and resource allocation.
 * **Multichannel Communication & Notifications:**
-    * Email and other communication channels.
-* **Resource Allocation Optimization:**
-    * AI driven resource distribution.
+    * Notifications for the Persons in Disaster prone areas.
 
 **Which feature excites you the most?**
 
