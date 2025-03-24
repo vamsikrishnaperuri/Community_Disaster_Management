@@ -132,3 +132,22 @@ We're aiming for:
 The Community Disaster Management App is more than just an app; it's a tool for resilience. By leveraging technology, we're empowering communities to face disasters with greater confidence and preparedness.
 
 **Let's build a safer future together!**
+
+![WhatsApp Image 2025-03-23 at 14 59 53_8b10807c](https://github.com/user-attachments/assets/3dd14775-0902-44b6-ab13-c55ad50945ef)
+![WhatsApp Image 2025-03-23 at 14 59 57_0a5c78ee](https://github.com/user-attachments/assets/9dc88717-d294-4f70-bf44-7cdac957a578)
+![WhatsApp Image 2025-03-23 at 14 59 50_f423ad68](https://github.com/user-attachments/assets/ed82fca9-323a-494b-a057-da7dacdeed74)
+![WhatsApp Image 2025-03-23 at 14 59 55_f43b0017](https://github.com/user-attachments/assets/8d7dfa0f-8fca-447b-b484-c6ae2cc11462)
+![WhatsApp Image 2025-03-23 at 14 59 54_61485daf](https://github.com/user-attachments/assets/468bcd90-3950-494f-9561-86e9983fdc15)
+![WhatsApp Image 2025-03-23 at 14 59 51_87b28f3a](https://github.com/user-attachments/assets/cbdbaa86-436c-45fd-90cc-8ee85cb55db8)
+![WhatsApp Image 2025-03-23 at 14 59 54_fe8291b8](https://github.com/user-attachments/assets/0a042760-0e82-406e-94d6-9e3f5f325d68)
+![WhatsApp Image 2025-03-23 at 14 59 56_56705555](https://github.com/user-attachments/assets/415450c4-7706-4472-99c5-522d2d799076)
+![WhatsApp Image 2025-03-23 at 14 58 46_5355c3e6](https://github.com/user-attachments/assets/3dbadc53-f369-46c2-8c26-4d357da5ea69)
+
+
+
+
+
+
+
+
+
