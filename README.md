@@ -142,7 +142,7 @@ The Community Disaster Management App is more than just an app; it's a tool for 
 ![WhatsApp Image 2025-03-23 at 14 59 54_fe8291b8](https://github.com/user-attachments/assets/0a042760-0e82-406e-94d6-9e3f5f325d68)
 ![WhatsApp Image 2025-03-23 at 14 59 56_56705555](https://github.com/user-attachments/assets/415450c4-7706-4472-99c5-522d2d799076)
 ![WhatsApp Image 2025-03-23 at 14 58 47_68344717](https://github.com/user-attachments/assets/28e7e754-a300-4f6e-88e0-9e9e84005a9c)
-<img src="https://github.com/user-attachments/assets/3dd14775-0902-44b6-ab13-c55ad50945ef" width="600" height="200">
+<img src="https://github.com/user-attachments/assets/3dd14775-0902-44b6-ab13-c55ad50945ef" width="300" height="700">
 
 
 
