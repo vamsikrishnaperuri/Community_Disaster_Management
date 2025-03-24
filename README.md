@@ -37,7 +37,7 @@ Our app is a tech-driven lifeline! Here's how it works:
 
 * **Real-Time Reporting:** Users report disasters with precise location and severity.
 * **Crowdsourced Verification:** Upvote/downvote system to filter false alarms.
-* **AI-Driven Safe Zones:** Personalized safe zone recommendations based on your location and the disaster.
+* **Safe Zones Recommendation:** Personalized safe zone recommendations based on your location and the disaster.
 * **Automated Alerts:** Emergency teams get instant notifications.
 * **Emergency Hub:** Direct access to helplines and resources.
 * **Flood Dashboard:** Dedicated features for flood-prone areas.
@@ -56,9 +56,7 @@ We're using cutting-edge tech to make this app robust:
 * **Backend:** FastAPI with Uvicorn (fast and efficient!)
 * **Database & Storage:** Firebase (real-time data) and AWS S3 (secure storage).
 * **APIs:** GeoLocator, Twilio, GTTS, REST APIs.
-* **AI:** Machine learning for recommendations and chatbots.
 * **Version Control:** GitHub/GitLab.
-* **Deployment:** AWS/GCP.
 * **Testing & Monitoring:** Postman, Firebase Crashlytics, Google Analytics.
 
 **Tech enthusiasts, any questions?**
