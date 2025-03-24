@@ -13,7 +13,7 @@ The Community Disaster Management App is a mobile-first, AI-powered solution bui
 
 * Disaster reporting with location precision.
 * Crowdsourced verification for reliability.
-* AI-powered safe zone guidance.
+* Safe zone guidance.
 * Direct access to emergency services.
 * And much more! (Keep reading!)
 
