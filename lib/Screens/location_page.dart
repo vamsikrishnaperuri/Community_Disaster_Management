@@ -63,7 +63,7 @@ class _LocationPageState extends State<LocationPage> {
       Map<String, dynamic> data = {
         'lat': position.latitude,
         'lng': position.longitude,
-        'api_key': 'ker234kj4kj34j234',
+        'api_key': 'API_KEY',
       };
 
       // Send POST request
