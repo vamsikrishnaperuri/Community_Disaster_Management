@@ -223,9 +223,52 @@ class _PostCardState extends State<PostCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Disaster: ${widget.post.disasterType}', style: TextStyle(fontWeight: FontWeight.bold)),
-            Text('Location: ${widget.post.location}'),
-            Text('Severity: ${widget.post.severity}'),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Circular image
+                ClipOval(
+                  child: (widget.post.imageUrl != null &&
+                      widget.post.imageUrl!.isNotEmpty &&
+                      Uri.tryParse(widget.post.imageUrl!)?.hasAbsolutePath == true)
+                      ? Image.network(
+                    widget.post.imageUrl!,
+                    width: 60,
+                    height: 60,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                        'lib/assets/defaultimgcam.png',
+                        width: 60,
+                        height: 60,
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  )
+                      : Image.asset(
+                    'lib/assets/defaultimgcam.png',
+                    width: 60,
+                    height: 60,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                SizedBox(width: 12),
+                // Info at the right
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Disaster: ${widget.post.disasterType}',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text('Location: ${widget.post.location}'),
+                      Text('Severity: ${widget.post.severity}'),
+                    ],
+                  ),
+                ),
+
+
+              ],
+            ),
             SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -242,7 +285,7 @@ class _PostCardState extends State<PostCard> {
                       ],
                     ),
                     Text('${widget.post.upvotes}'),
-                    SizedBox(width: 10), // spacing
+                    SizedBox(width: 10),
                     Column(
                       children: [
                         IconButton(
@@ -261,7 +304,7 @@ class _PostCardState extends State<PostCard> {
                       _showDetails = !_showDetails;
                     });
                   },
-                  child: Text("Show More"),
+                  child: Text(_showDetails ? "Hide Details" : "Show More"),
                 ),
               ],
             ),

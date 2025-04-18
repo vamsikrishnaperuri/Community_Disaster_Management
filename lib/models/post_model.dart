@@ -8,6 +8,7 @@ class Post {
   final int upvotes;
   final int downvotes;
   final String postId;
+  final String imageUrl;
 
   Post({
     required this.disasterType,
@@ -19,6 +20,7 @@ class Post {
     required this.upvotes,
     required this.downvotes,
     required this.postId,
+    required this.imageUrl
   });
 
   factory Post.fromFirestore(Map<String, dynamic> data, String id) {
@@ -28,10 +30,11 @@ class Post {
       severity: data['severity'] ?? '',
       username: data['username'] ?? '',
       description: data['description'] ?? '',
-      age: data['age'] ?? 0,
-      upvotes: data['upvotes'] ?? 0,
-      downvotes: data['downvotes'] ?? 0,
+      age: data['age'] is int ? data['age'] : int.tryParse(data['age'].toString()) ?? 0,
+      upvotes: data['upvotes'] is int ? data['upvotes'] : int.tryParse(data['upvotes'].toString()) ?? 0,
+      downvotes: data['downvotes'] is int ? data['downvotes'] : int.tryParse(data['downvotes'].toString()) ?? 0,
       postId: id,
+      imageUrl: data['imageUrl'] ?? '',
     );
   }
 
@@ -45,6 +48,7 @@ class Post {
       'age': age,
       'upvotes': upvotes,
       'downvotes': downvotes,
+      'imageUrl': imageUrl,
     };
   }
 }

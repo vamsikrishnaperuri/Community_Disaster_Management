@@ -1,12 +1,9 @@
 import 'dart:convert';
+import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
-
-import 'DisasterScreens/CyclonePage.dart';
-import 'DisasterScreens/EarthquakePage.dart';
-import 'DisasterScreens/FloodPage.dart';
-import 'DisasterScreens/ForestFirePage.dart';
 
 class LocationPage extends StatefulWidget {
   const LocationPage({super.key});
@@ -19,12 +16,6 @@ class _LocationPageState extends State<LocationPage> {
   String alertMessage = 'Press "Get Report" to fetch alerts for your area.';
   String safeAreasMessage = '';
 
-  final Map<String, Widget> disasterPages = {
-    'Cyclone': const CyclonePage(),
-    'Earthquakes': const EarthquakePage(),
-    'Floods': const FloodPage(),
-    'Forest Fires': const ForestFirePage(),
-  };
 
   Future<void> _getReport() async {
     try {
@@ -166,80 +157,17 @@ class _LocationPageState extends State<LocationPage> {
             const SizedBox(height: 20),
 
             // Disaster Cards
-            ...disasterPages.entries.map((entry) => Padding(
-              padding: const EdgeInsets.only(bottom: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => entry.value,
-                    ),
-                  );
-                },
-                child: _buildDisasterCard(entry.key),
-              ),
-            )),
+
           ],
         ),
       ),
     );
   }
 
-  Widget _buildDisasterCard(String title) {
-    return Container(
-      height: 100,
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.blueAccent,
-            Colors.blue,
-            Colors.lightBlueAccent,
-          ],
-        ),
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          const BoxShadow(
-            color: Colors.white,
-            offset: Offset(-5, -5),
-            blurRadius: 10,
-          ),
-          BoxShadow(
-            color: Colors.grey.shade500,
-            offset: const Offset(5, 5),
-            blurRadius: 10,
-          ),
-        ],
-      ),
-      child: Container(
-        margin: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Colors.white70,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade400,
-              offset: const Offset(2, 2),
-              blurRadius: 6,
-              spreadRadius: 2,
-            ),
-            const BoxShadow(
-              color: Colors.white,
-              offset: Offset(-2, -2),
-              blurRadius: 6,
-              spreadRadius: 2,
-            ),
-          ],
-        ),
-        child: Center(
-          child: Text(
-            title,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-    );
-  }
+
+
+
+
+
 }
+
