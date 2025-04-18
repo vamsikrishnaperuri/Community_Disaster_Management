@@ -67,8 +67,6 @@ class _LocationPageState extends State<LocationPage> {
       );
 
       // Handle response
-
-
       if (response.statusCode == 200) {
         try {
           // First decode

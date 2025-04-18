@@ -103,7 +103,7 @@ class _PostScreenState extends State<PostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Post'),
+        title: const Text('Add Post'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -113,7 +113,7 @@ class _PostScreenState extends State<PostScreen> {
             children: [
               TextFormField(
                 controller: _disasterTypeController,
-                decoration: InputDecoration(labelText: 'Disaster Type'),
+                decoration: const InputDecoration(labelText: 'Disaster Type'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the disaster type';
@@ -123,7 +123,7 @@ class _PostScreenState extends State<PostScreen> {
               ),
               TextFormField(
                 controller: _locationController,
-                decoration: InputDecoration(labelText: 'Location'),
+                decoration: const InputDecoration(labelText: 'Location'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the location';
@@ -133,7 +133,7 @@ class _PostScreenState extends State<PostScreen> {
               ),
               TextFormField(
                 controller: _severityController,
-                decoration: InputDecoration(labelText: 'Severity'),
+                decoration: const InputDecoration(labelText: 'Severity'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the severity';
@@ -143,7 +143,7 @@ class _PostScreenState extends State<PostScreen> {
               ),
               TextFormField(
                 controller: _usernameController,
-                decoration: InputDecoration(labelText: 'Username'),
+                decoration: const InputDecoration(labelText: 'Username'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your username';
@@ -153,7 +153,7 @@ class _PostScreenState extends State<PostScreen> {
               ),
               TextFormField(
                 controller: _descriptionController,
-                decoration: InputDecoration(labelText: 'Description'),
+                decoration: const InputDecoration(labelText: 'Description'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a description';
@@ -163,7 +163,7 @@ class _PostScreenState extends State<PostScreen> {
               ),
               TextFormField(
                 controller: _ageController,
-                decoration: InputDecoration(labelText: 'Age'),
+                decoration: const InputDecoration(labelText: 'Age'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -175,22 +175,22 @@ class _PostScreenState extends State<PostScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Attach Image (optional):'),
-                  SizedBox(height: 8),
+                  const Text('Attach Image (optional):'),
+                  const SizedBox(height: 8),
                   _selectedImage != null
                       ? Image.file(_selectedImage!, height: 150)
-                      : Text('No image selected'),
+                      : const Text('No image selected'),
                   TextButton.icon(
                     onPressed: _pickImage,
-                    icon: Icon(Icons.image),
-                    label: Text('Select Image from Gallery'),
+                    icon: const Icon(Icons.image),
+                    label: const Text('Select Image from Gallery'),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _uploadImageAndSubmitPost,
-                child: Text('Submit'),
+                child: const Text('Submit'),
               ),
             ],
           ),
