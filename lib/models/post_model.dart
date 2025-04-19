@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Post {
   final String disasterType;
   final String location;
@@ -9,6 +11,7 @@ class Post {
   final int downvotes;
   final String postId;
   final String imageUrl;
+  final Timestamp timestamp;
 
   Post({
     required this.disasterType,
@@ -20,7 +23,9 @@ class Post {
     required this.upvotes,
     required this.downvotes,
     required this.postId,
-    required this.imageUrl
+    required this.imageUrl,
+    required this.timestamp,
+
   });
 
   factory Post.fromFirestore(Map<String, dynamic> data, String id) {
@@ -35,8 +40,11 @@ class Post {
       downvotes: data['downvotes'] is int ? data['downvotes'] : int.tryParse(data['downvotes'].toString()) ?? 0,
       postId: id,
       imageUrl: data['imageUrl'] ?? '',
+      timestamp: data['timestamp'] ?? Timestamp.now(),
+
     );
   }
+
 
   Map<String, dynamic> toFirestore() {
     return {
@@ -49,6 +57,7 @@ class Post {
       'upvotes': upvotes,
       'downvotes': downvotes,
       'imageUrl': imageUrl,
+      'timestamp': timestamp,
     };
   }
 }

@@ -34,6 +34,23 @@ class _PostScreenState extends State<PostScreen> {
     }
   }
 
+  String? _selectedDisasterType;
+  String? _selectedSeverity;
+
+  final List<String> disasterTypes = [
+    'Cyclone',
+    'Hurricane',
+    'Earthquake',
+    'WildFire',
+    'Floods',
+    'Volcanic eruption',
+    'Drought',
+    'Tornado',
+    'Fire',
+  ];
+
+  final List<String> severityLevels = ['Low', 'Moderate', 'High'];
+
   Future<void> _uploadImageAndSubmitPost() async {
     if (_formKey.currentState!.validate()) {
       String imageUrl = '';
@@ -72,12 +89,12 @@ class _PostScreenState extends State<PostScreen> {
 
       // Prepare post data
       final postData = {
-        'disasterType': _disasterTypeController.text.trim(),
-        'location': _locationController.text.trim(),
-        'severity': _severityController.text.trim(),
-        'username': _usernameController.text.trim(),
-        'description': _descriptionController.text.trim(),
-        'age': age,
+        'username': _usernameController.text,
+        'location': _locationController.text,
+        'description': _descriptionController.text,
+        'age': _ageController.text,
+        'disasterType': _selectedDisasterType,
+        'severity': _selectedSeverity,
         'imageUrl': imageUrl,
         'upvotes': 0,
         'downvotes': 0,
@@ -93,6 +110,12 @@ class _PostScreenState extends State<PostScreen> {
       } catch (e) {
         print('Firebase submission error: $e');
       }
+
+      _formKey.currentState!.reset();
+      _usernameController.clear();
+      _locationController.clear();
+      _descriptionController.clear();
+      _ageController.clear();
     }
   }
 
@@ -103,7 +126,7 @@ class _PostScreenState extends State<PostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Post'),
+        title: const Text('Add Disaster Report'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -111,86 +134,146 @@ class _PostScreenState extends State<PostScreen> {
           key: _formKey,
           child: ListView(
             children: [
-              TextFormField(
-                controller: _disasterTypeController,
-                decoration: const InputDecoration(labelText: 'Disaster Type'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter the disaster type';
-                  }
-                  return null;
-                },
+              const Text(
+                'Disaster Information',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
+              const SizedBox(height: 12),
+
+              // 🌪️ Disaster Type Dropdown
+              DropdownButtonFormField<String>(
+                decoration: const InputDecoration(
+                  labelText: 'Disaster Type',
+                  prefixIcon: Icon(Icons.warning_amber_rounded),
+                  border: OutlineInputBorder(),
+                ),
+                value: _selectedDisasterType,
+                items: disasterTypes
+                    .map((type) => DropdownMenuItem(
+                  value: type,
+                  child: Text(type),
+                ))
+                    .toList(),
+                onChanged: (val) => setState(() {
+                  _selectedDisasterType = val;
+                }),
+                validator: (val) => val == null ? 'Please select a disaster type' : null,
+              ),
+
+              const SizedBox(height: 12),
+
+              // 📍 Location
               TextFormField(
                 controller: _locationController,
-                decoration: const InputDecoration(labelText: 'Location'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter the location';
-                  }
-                  return null;
-                },
+                decoration: const InputDecoration(
+                  labelText: 'Location',
+                  prefixIcon: Icon(Icons.location_on),
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) => value == null || value.isEmpty ? 'Please enter location' : null,
               ),
-              TextFormField(
-                controller: _severityController,
-                decoration: const InputDecoration(labelText: 'Severity'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter the severity';
-                  }
-                  return null;
-                },
+
+              const SizedBox(height: 12),
+
+              // 🔥 Severity Dropdown
+              DropdownButtonFormField<String>(
+                decoration: const InputDecoration(
+                  labelText: 'Severity',
+                  prefixIcon: Icon(Icons.traffic),
+                  border: OutlineInputBorder(),
+                ),
+                value: _selectedSeverity,
+                items: severityLevels
+                    .map((level) => DropdownMenuItem(
+                  value: level,
+                  child: Text(level),
+                ))
+                    .toList(),
+                onChanged: (val) => setState(() {
+                  _selectedSeverity = val;
+                }),
+                validator: (val) => val == null ? 'Please select severity level' : null,
               ),
+
+              const SizedBox(height: 12),
+
+              // 👤 Username
               TextFormField(
                 controller: _usernameController,
-                decoration: const InputDecoration(labelText: 'Username'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your username';
-                  }
-                  return null;
-                },
+                decoration: const InputDecoration(
+                  labelText: 'Your Name',
+                  prefixIcon: Icon(Icons.person),
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) => value == null || value.isEmpty ? 'Enter your name' : null,
               ),
+
+              const SizedBox(height: 12),
+
+              // 📄 Description
               TextFormField(
                 controller: _descriptionController,
-                decoration: const InputDecoration(labelText: 'Description'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a description';
-                  }
-                  return null;
-                },
+                maxLines: 4,
+                decoration: const InputDecoration(
+                  labelText: 'Description',
+                  alignLabelWithHint: true,
+                  prefixIcon: Icon(Icons.description),
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) => value == null || value.isEmpty ? 'Please add a description' : null,
               ),
+
+              const SizedBox(height: 12),
+
+              // 🎂 Age
               TextFormField(
                 controller: _ageController,
-                decoration: const InputDecoration(labelText: 'Age'),
                 keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your age';
-                  }
-                  return null;
-                },
+                decoration: const InputDecoration(
+                  labelText: 'Age',
+                  prefixIcon: Icon(Icons.cake),
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) => value == null || value.isEmpty ? 'Please enter age' : null,
               ),
+
+              const SizedBox(height: 16),
+
+              // 📸 Image Picker
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Attach Image (optional):'),
+                  const Text('Attach Image (optional):', style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
                   _selectedImage != null
-                      ? Image.file(_selectedImage!, height: 150)
+                      ? ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.file(_selectedImage!, height: 150),
+                  )
                       : const Text('No image selected'),
+                  const SizedBox(height: 8),
                   TextButton.icon(
                     onPressed: _pickImage,
                     icon: const Icon(Icons.image),
-                    label: const Text('Select Image from Gallery'),
+                    label: const Text('Select from Gallery'),
                   ),
                 ],
               ),
+
               const SizedBox(height: 20),
-              ElevatedButton(
+
+              // 📤 Submit Button
+              ElevatedButton.icon(
                 onPressed: _uploadImageAndSubmitPost,
-                child: const Text('Submit'),
+                icon: const Icon(Icons.cloud_upload),
+                label: const Text('Submit Post',style: TextStyle(
+                  color: Colors.white,
+                ),),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  textStyle: const TextStyle(fontSize: 16),
+                  backgroundColor: Colors.deepPurple,
+                ),
               ),
             ],
           ),

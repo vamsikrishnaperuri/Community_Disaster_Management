@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
+import 'package:http/http.dart';
 import '../models/post_model.dart';
+import 'package:intl/intl.dart';
 import 'post_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -143,6 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -207,7 +210,13 @@ class _PostCardState extends State<PostCard> {
     return Card(
         elevation: 4,
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: getSeverityColor(widget.post.severity),
+          width: 2,
+        ),
+      ),
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
@@ -248,13 +257,27 @@ class _PostCardState extends State<PostCard> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          widget.post.disasterType.toUpperCase(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              widget.post.disasterType.toUpperCase(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(
+                              DateFormat('yyyy-MM-dd').format(widget.post.timestamp.toDate()), // Assuming 'timestamp' is a Firestore Timestamp
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF1B3C36),
+                              ),
+                            ),
+                          ],
                         ),
+
+
                         const SizedBox(height: 4),
                         Row(
                           children: [
@@ -262,8 +285,8 @@ class _PostCardState extends State<PostCard> {
                             const SizedBox(width: 4),
                             Expanded(
                               child: Text(
-                                widget.post.location,
-                                style: const TextStyle(fontSize: 13, color: Colors.grey),
+                                "Location: ${widget.post.location}",
+                                style: const TextStyle(fontSize: 13, color: Colors.black),
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -284,7 +307,7 @@ class _PostCardState extends State<PostCard> {
                                 fontSize: 13,
                                 color: widget.post.severity.toLowerCase() == 'high'
                                     ? Colors.red
-                                    : widget.post.severity.toLowerCase() == 'medium'
+                                    : widget.post.severity.toLowerCase() == 'moderate'
                                     ? Colors.orange
                                     : Colors.green,
                                 fontWeight: FontWeight.bold,
@@ -361,5 +384,20 @@ class _PostCardState extends State<PostCard> {
           ),
         ),
       );
+  }
+}
+
+Color getSeverityColor(String severity) {
+  switch (severity.toLowerCase()) {
+    case 'high':
+      return Colors.red;
+    case 'medium':
+      return Colors.orange;
+    case 'moderate':
+      return Colors.orange;
+    case 'low':
+      return Colors.green;
+    default:
+      return Colors.grey;
   }
 }
