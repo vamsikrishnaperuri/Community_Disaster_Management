@@ -142,15 +142,16 @@ The Community Disaster Management App is more than just an app; it's a tool for 
 
 <img src="https://github.com/user-attachments/assets/85617b69-9ba4-4ad8-81df-b0a3a03b42a9" width="300" height="700">
 
-<img src="https://github.com/user-attachments/assets/31924eb6-206a-44b5-bc87-4628179e904b" width="300" height="700">
+<img src="https://github.com/user-attachments/assets/28e7e754-a300-4f6e-88e0-9e9e84005a9c" width="300" height="700">
 
 <img src="https://github.com/user-attachments/assets/cbdbaa86-436c-45fd-90cc-8ee85cb55db8" width="300" height="700">
 
 <img src="https://github.com/user-attachments/assets/0a042760-0e82-406e-94d6-9e3f5f325d68" width="300" height="700">
 
 <img src="https://github.com/user-attachments/assets/8da1ce23-b1f1-43a4-83aa-3967bc58d523" width="300" height="700">
+<img src="https://github.com/user-attachments/assets/31924eb6-206a-44b5-bc87-4628179e904b" width="300" height="700">
 
-<img src="https://github.com/user-attachments/assets/28e7e754-a300-4f6e-88e0-9e9e84005a9c" width="300" height="700">
+
 <img src="https://github.com/user-attachments/assets/ee70ba46-3539-433b-b0a0-def06678b4c3" width="300" height="700">
 
 <img src="https://github.com/user-attachments/assets/07b13c23-fced-48c5-a97b-7bc00edd05d8" width="300" height="700">
