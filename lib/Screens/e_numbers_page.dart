@@ -285,11 +285,14 @@ class _ENumbersPageState extends State<ENumbersPage> {
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Could not make call.')),
-      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not make call.')),
+        );
+      }
     }
   }
+
 
   Widget _buildDisasterCard(String title) {
     // Map of titles to corresponding image URLs
