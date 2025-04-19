@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
         filteredPosts = posts;
       });
     } catch (e) {
-      print('Error fetching posts: $e');
+      // print('Error fetching posts: $e');
     }
   }
 
@@ -147,10 +147,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Disaster Posts"),
+        title: const Text("Disaster Posts"),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () {
               Navigator.push(
                 context,
@@ -174,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: filteredPosts.isEmpty
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
         itemCount: filteredPosts.length,
         itemBuilder: (context, index) {
@@ -205,12 +205,12 @@ class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
-      margin: EdgeInsets.all(10),
+      duration: const Duration(milliseconds: 300),
+      margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black26,
             blurRadius: 10,
@@ -252,14 +252,14 @@ class _PostCardState extends State<PostCard> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 // Info at the right
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Disaster: ${widget.post.disasterType}',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
                       Text('Location: ${widget.post.location}'),
                       Text('Severity: ${widget.post.severity}'),
                     ],
@@ -268,7 +268,7 @@ class _PostCardState extends State<PostCard> {
 
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -277,21 +277,21 @@ class _PostCardState extends State<PostCard> {
                     Column(
                       children: [
                         IconButton(
-                          icon: Icon(Icons.thumb_up, color: Colors.green),
+                          icon: const Icon(Icons.thumb_up, color: Colors.green),
                           onPressed: () => widget.onVote(true),
                         ),
-                        Text('Upvote'),
+                        const Text('Upvote'),
                       ],
                     ),
                     Text('${widget.post.upvotes}'),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Column(
                       children: [
                         IconButton(
-                          icon: Icon(Icons.thumb_down, color: Colors.red),
+                          icon: const Icon(Icons.thumb_down, color: Colors.red),
                           onPressed: () => widget.onVote(false),
                         ),
-                        Text('Downvote'),
+                        const Text('Downvote'),
                       ],
                     ),
                     Text('${widget.post.downvotes}'),
@@ -309,7 +309,7 @@ class _PostCardState extends State<PostCard> {
             ),
             AnimatedOpacity(
               opacity: _showDetails ? 1.0 : 0.0,
-              duration: Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 300),
               child: _showDetails
                   ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

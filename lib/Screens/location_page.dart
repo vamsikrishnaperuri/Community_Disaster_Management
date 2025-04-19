@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
@@ -119,9 +117,9 @@ class _LocationPageState extends State<LocationPage> {
           children: [
             // Alerts Card
             Card(
-              margin: EdgeInsets.all(12),
+              margin: const EdgeInsets.all(12),
               child: Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -130,10 +128,10 @@ class _LocationPageState extends State<LocationPage> {
                       '⚠️ Alerts',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(alertMessage),
                     if (safeAreasMessage.isNotEmpty) ...[
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Text(
                         safeAreasMessage,
                         style: TextStyle(color: Colors.green[700]),

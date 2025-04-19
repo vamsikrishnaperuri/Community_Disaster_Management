@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:w_a_p/Screens/DisasterInfoScreen.dart';
 import 'Screens/e_numbers_page.dart';
 import 'Screens/feedback_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'Screens/home_page.dart';
-import 'Screens/location_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static final List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     ENumbersPage(),
-    LocationPage(),
+    DisasterInfoScreen(),
     FeedbackPage(),
   ];
 
@@ -84,20 +84,20 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.numbers),
-            label: 'E-Numbers',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.info),
-            label: 'Report',
+            label: 'Reports',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.feedback),
-            label: 'Chatbot',
+            icon: Icon(Icons.hub_outlined),
+            label: 'Hub',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.feedback_outlined),
+            label: 'Feedback',
           ),
         ],
         currentIndex: _selectedIndex,

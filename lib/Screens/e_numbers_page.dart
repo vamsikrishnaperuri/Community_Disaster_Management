@@ -29,7 +29,7 @@ class _ENumbersPageState extends State<ENumbersPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xFFFFFFFF),
+        backgroundColor: const Color(0xFFFFFFFF),
         body: Padding( // Scaffold still needed for safe area, etc.
           padding: const EdgeInsets.only(
             top: 16.0,
@@ -76,7 +76,7 @@ class _ENumbersPageState extends State<ENumbersPage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => LocationPage()),
+                        MaterialPageRoute(builder: (context) => const LocationPage()),
                       );
                     },
                     borderRadius: BorderRadius.circular(30),
