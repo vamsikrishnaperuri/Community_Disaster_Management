@@ -204,126 +204,162 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      margin: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 10,
-            offset: Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Circular image
-                ClipOval(
-                  child: (widget.post.imageUrl != null &&
-                      widget.post.imageUrl!.isNotEmpty &&
-                      Uri.tryParse(widget.post.imageUrl!)?.hasAbsolutePath == true)
-                      ? Image.network(
-                    widget.post.imageUrl!,
-                    width: 60,
-                    height: 60,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset(
-                        'lib/assets/defaultimgcam.png',
-                        width: 60,
-                        height: 60,
-                        fit: BoxFit.cover,
-                      );
-                    },
-                  )
-                      : Image.asset(
-                    'lib/assets/defaultimgcam.png',
-                    width: 60,
-                    height: 60,
-                    fit: BoxFit.cover,
+    return Card(
+        elevation: 4,
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  // Circular image
+                  ClipOval(
+                    child: (widget.post.imageUrl != null &&
+                        widget.post.imageUrl!.isNotEmpty &&
+                        Uri.tryParse(widget.post.imageUrl!)?.hasAbsolutePath == true)
+                        ? Image.network(
+                      widget.post.imageUrl!,
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          'lib/assets/defaultimgcam.png',
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    )
+                        : Image.asset(
+                      'lib/assets/defaultimgcam.png',
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 12),
-                // Info at the right
-                Expanded(
+                  const SizedBox(width: 16),
+
+                  // Main info
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.post.disasterType.toUpperCase(),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            const Icon(Icons.location_on, size: 14, color: Colors.grey),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                widget.post.location,
+                                style: const TextStyle(fontSize: 13, color: Colors.grey),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            const Icon(Icons.warning, size: 14, color: Colors.orange),
+                            const SizedBox(width: 4),
+                              const Text(
+                              "Severity: ",
+                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+                            ),
+                            Text(
+                              widget.post.severity,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: widget.post.severity.toLowerCase() == 'high'
+                                    ? Colors.red
+                                    : widget.post.severity.toLowerCase() == 'medium'
+                                    ? Colors.orange
+                                    : Colors.green,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+
+              // Voting and toggle
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.thumb_up, color: Colors.green),
+                            onPressed: () => widget.onVote(true),
+                          ),
+                          Text('${widget.post.upvotes}'),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.thumb_down, color: Colors.red),
+                            onPressed: () => widget.onVote(false),
+                          ),
+                          Text('${widget.post.downvotes}'),
+                        ],
+                      ),
+                    ],
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _showDetails = !_showDetails;
+                      });
+                    },
+                    child: Text(
+                      _showDetails ? "Hide Details" : "Show More",
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+
+              // Expandable details
+              AnimatedCrossFade(
+                firstChild: const SizedBox.shrink(),
+                secondChild: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Disaster: ${widget.post.disasterType}',
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                      Text('Location: ${widget.post.location}'),
-                      Text('Severity: ${widget.post.severity}'),
+                      Text("👤 Username: ${widget.post.username}"),
+                      Text("🎂 Age: ${widget.post.age}"),
+                      Text("📝 Description: ${widget.post.description}"),
                     ],
                   ),
                 ),
-
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Column(
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.thumb_up, color: Colors.green),
-                          onPressed: () => widget.onVote(true),
-                        ),
-                        const Text('Upvote'),
-                      ],
-                    ),
-                    Text('${widget.post.upvotes}'),
-                    const SizedBox(width: 10),
-                    Column(
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.thumb_down, color: Colors.red),
-                          onPressed: () => widget.onVote(false),
-                        ),
-                        const Text('Downvote'),
-                      ],
-                    ),
-                    Text('${widget.post.downvotes}'),
-                  ],
-                ),
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _showDetails = !_showDetails;
-                    });
-                  },
-                  child: Text(_showDetails ? "Hide Details" : "Show More"),
-                ),
-              ],
-            ),
-            AnimatedOpacity(
-              opacity: _showDetails ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 300),
-              child: _showDetails
-                  ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Username: ${widget.post.username}'),
-                  Text('Age: ${widget.post.age}'),
-                  Text('Description: ${widget.post.description}'),
-                ],
-              )
-                  : Container(),
-            ),
-          ],
+                crossFadeState:
+                _showDetails ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                duration: const Duration(milliseconds: 300),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
   }
 }
