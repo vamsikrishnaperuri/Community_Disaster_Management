@@ -134,23 +134,37 @@ The Community Disaster Management App is more than just an app; it's a tool for 
 **Let's build a safer future together!**
 
 
-<img src="https://github.com/user-attachments/assets/3dd14775-0902-44b6-ab13-c55ad50945ef" width="300" height="700">
+<img src="https://github.com/user-attachments/assets/5855859e-e885-4846-9cf6-40a11960373c" width="300" height="700">
 
-<img src="https://github.com/user-attachments/assets/9dc88717-d294-4f70-bf44-7cdac957a578" width="300" height="700">
+<img src="https://github.com/user-attachments/assets/8445e286-0cb2-406c-9ff1-3429f52e4de2" width="300" height="700">
 
-<img src="https://github.com/user-attachments/assets/ed82fca9-323a-494b-a057-da7dacdeed74" width="300" height="700">
+<img src="https://github.com/user-attachments/assets/a411d9ad-6da4-4734-ad62-db9ce95af5de" width="300" height="700">
 
-<img src="https://github.com/user-attachments/assets/8d7dfa0f-8fca-447b-b484-c6ae2cc11462" width="300" height="700">
+<img src="https://github.com/user-attachments/assets/85617b69-9ba4-4ad8-81df-b0a3a03b42a9" width="300" height="700">
 
-<img src="https://github.com/user-attachments/assets/468bcd90-3950-494f-9561-86e9983fdc15" width="300" height="700">
+<img src="https://github.com/user-attachments/assets/28e7e754-a300-4f6e-88e0-9e9e84005a9c" width="300" height="700">
 
 <img src="https://github.com/user-attachments/assets/cbdbaa86-436c-45fd-90cc-8ee85cb55db8" width="300" height="700">
 
 <img src="https://github.com/user-attachments/assets/0a042760-0e82-406e-94d6-9e3f5f325d68" width="300" height="700">
 
-<img src="https://github.com/user-attachments/assets/415450c4-7706-4472-99c5-522d2d799076" width="300" height="700">
+<img src="https://github.com/user-attachments/assets/8da1ce23-b1f1-43a4-83aa-3967bc58d523" width="300" height="700">
+<img src="https://github.com/user-attachments/assets/31924eb6-206a-44b5-bc87-4628179e904b" width="300" height="700">
 
-<img src="https://github.com/user-attachments/assets/28e7e754-a300-4f6e-88e0-9e9e84005a9c" width="300" height="700">
+
+<img src="https://github.com/user-attachments/assets/ee70ba46-3539-433b-b0a0-def06678b4c3" width="300" height="700">
+
+<img src="https://github.com/user-attachments/assets/07b13c23-fced-48c5-a97b-7bc00edd05d8" width="300" height="700">
+
+
+
+
+
+
+
+
+
+
 
 
 
